@@ -8,3 +8,4 @@ select
     upper(state) as state,  -- Standardize state to uppercase
     signup_date::date as signup_date
 from {{ source('raw_data', 'customers') }}
+--Testing GitHub Actions CI
