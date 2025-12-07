@@ -1,0 +1,21 @@
+name: dbt CI Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Build Docker image
+        run: docker build -f Dockerfile.dev -t dbt-test .
+      
+      - name: Run dbt deps
+        run: docker run --rm -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt deps
+      
+      - name: Run dbt build
+        run: docker run --rm -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt build
