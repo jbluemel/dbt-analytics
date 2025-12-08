@@ -3,18 +3,23 @@ my_dbt_project:
   
   outputs:
     # Local DuckDB - fast iteration, no external connection
-    local:
-      type: duckdb
-      path: /usr/app/dbt/dbt.duckdb
-      threads: 4
+   local:
+    type: postgres
+    host: "{{ env_var('POSTGRES_HOST', 'postgres') }}"
+    port: 5432
+    user: dbt_user
+    password: dbt_password
+    dbname: dbt_dev
+    schema: public
+    threads: 4
     
     # Personal Databricks dev schema - for validation before PR
     dev_databricks:
       type: databricks
       host: purplewave.cloud.databricks.com
       http_path: /sql/1.0/warehouses/your_warehouse_path_here
-      schema: "dev_{{ env_var('USER') }}"
-      token: "{{ env_var('DBX_DEV_TOKEN') }}"
+      schema: "dev_{{ env_var('USER', 'default') }}"
+      token: "{{ env_var('DBX_DEV_TOKEN', 'dummy') }}"
       threads: 4
     
     # CI testing - used by GitHub Actions (future)
@@ -23,7 +28,7 @@ my_dbt_project:
       host: purplewave.cloud.databricks.com
       http_path: /sql/1.0/warehouses/your_warehouse_path_here
       schema: ci_testing
-      token: "{{ env_var('DBX_CI_TOKEN') }}"
+      token: "{{ env_var('DBX_CI_TOKEN', 'dummy') }}"
       threads: 4
     
     # Production - used by Kubernetes (future)
@@ -32,5 +37,5 @@ my_dbt_project:
       host: purplewave.cloud.databricks.com
       http_path: /sql/1.0/warehouses/your_warehouse_path_here
       schema: production
-      token: "{{ env_var('DBX_PROD_TOKEN') }}"
+      token: "{{ env_var('DBX_PROD_TOKEN', 'dummy') }}"
       threads: 8
