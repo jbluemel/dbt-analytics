@@ -5,7 +5,7 @@ my_dbt_project:
     # Local DuckDB - fast iteration, no external connection
    local:
     type: duckdb
-    path: ':memory:'
+    path: /tmp/dbt.duckdb
     schema: main
     threads: 4
     
