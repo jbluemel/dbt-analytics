@@ -31,10 +31,10 @@ jobs:
         run: docker build -f Dockerfile.dev -t dbt-test .
       
       - name: Run dbt deps
-        run: docker run --rm --network host -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt deps
-      
+        run: docker run --rm --network host -e POSTGRES_HOST=localhost -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt deps
+
       - name: Run dbt seed
-        run: docker run --rm --network host -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt seed
-      
+        run: docker run --rm --network host -e POSTGRES_HOST=localhost -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt seed
+
       - name: Run dbt build
-        run: docker run --rm --network host -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt build
+        run: docker run --rm --network host -e POSTGRES_HOST=localhost -v ${{ github.workspace }}:/usr/app/dbt dbt-test dbt build
