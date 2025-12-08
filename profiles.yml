@@ -6,6 +6,7 @@ my_dbt_project:
    local:
     type: duckdb
     path: /tmp/dbt.duckdb
+    database: main
     schema: main
     threads: 4
     
