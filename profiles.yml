@@ -3,10 +3,11 @@ my_dbt_project:
   
   outputs:
     # Local DuckDB - fast iteration, no external connection
-    local:
-      type: duckdb
-      path: /usr/app/dbt/dbt.duckdb
-      threads: 4
+   local:
+    type: duckdb
+    path: ':memory:'
+    schema: main
+    threads: 4
     
     # Personal Databricks dev schema - for validation before PR
     dev_databricks:
