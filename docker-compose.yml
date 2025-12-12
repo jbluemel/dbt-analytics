@@ -3,25 +3,20 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
+    container_name: dbt-local-postgres
     environment:
       POSTGRES_USER: dbt_user
       POSTGRES_PASSWORD: dbt_password
-      POSTGRES_DB: dbt_dev
+      POSTGRES_DB: analytics
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  dbt:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - .:/usr/app/dbt
-    working_dir: /usr/app/dbt
-    command: tail -f /dev/null
-    depends_on:
-      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dbt_user -d analytics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
