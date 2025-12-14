@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: category_performance
+    description: "Total winning bid amounts by auction category"
+    columns:
+      - name: category
+        description: "Item category (Equipment, Vehicle, Tools)"
+        tests:
+          - not_null
+          - unique
+      
+      - name: total_winning_bid_amount
+        description: "Sum of all winning bids for this category"
+        tests:
+          - not_null
+          
+
+  - name: customer_lifetime_value
+    description: "Customer spending analysis"
+    
+  - name: item_performance
+    description: "Item-level performance metrics"
