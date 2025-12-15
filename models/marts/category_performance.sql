@@ -26,7 +26,8 @@ category_totals as (
     select
         i.category,
         count(i.item_id) as total_lots,
-        sum(w.winning_bid_amount) as total_winning_bid_amount
+        sum(w.winning_bid_amount) as total_winning_bid_amount,
+        avg(w.winning_bid_amount) as avg_bid
     from items i
     inner join winning_bids w on i.item_id = w.item_id
     group by i.category
@@ -35,6 +36,7 @@ category_totals as (
 select
     category,
     total_lots,
-    total_winning_bid_amount
+    total_winning_bid_amount,
+    avg_bid
 from category_totals
 order by total_winning_bid_amount desc
